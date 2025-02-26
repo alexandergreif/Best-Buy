@@ -1,4 +1,4 @@
-import products
+
 
 class Store:
     """
@@ -51,7 +51,7 @@ class Store:
         Calculate the total quantity of items available in the store.
 
         Returns:
-            int: The sum of quantities for all products in the store.
+             int: The sum of quantities for all products in the store.
         """
         total_quantity = 0
         for product in self.list_of_products:
@@ -80,7 +80,8 @@ class Store:
             float: The total price for the order.
 
         Raises:
-            ValueError: If a product does not have sufficient quantity or if an invalid quantity is provided.
+            ValueError: If a product does not have sufficient quantity or if an invalid
+            quantity is provided.
         """
         if not isinstance(shopping_list[0], tuple):
             raise ValueError("Shopping list need to contain Item name and quantity as tuple.")
@@ -96,5 +97,3 @@ class Store:
             total_price += product.buy(quantity)
 
         return total_price
-
-

@@ -1,6 +1,7 @@
+import sys
 from products import Product
 from store import Store
-import sys
+
 
 def quit_program():
     """
@@ -50,7 +51,8 @@ def get_all_quantity(store_object):
     """
     Calculate and return the total quantity of items in the store.
 
-    This method iterates through all products in the store's inventory and sums up their individual quantities.
+    This method iterates through all products in the store's inventory and sums up their
+    individual quantities.
 
     Returns:
         int: The total number of items available across all products.
@@ -68,7 +70,8 @@ def list_all_products(store_object):
     Parameters:
         store_object (Store): The store instance containing products.
 
-    The function retrieves active products using store_object.get_all_products() and prints each product's details.
+    The function retrieves active products using store_object.get_all_products()
+    and prints each product's details.
     """
     all_products = store_object.get_all_products()
     print("------")
@@ -127,8 +130,8 @@ def wrap_order(store_object):
             print("--------")
             print(f"Order is placed. Total price is {total_price}€")
             print("--------")
-        except ValueError as e:
-            print(f"Order failed: {e}")
+        except ValueError as error:
+            print(f"Order failed: {error}")
     else:
         print("No products selected, returning to menu.")
 
@@ -154,3 +157,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
