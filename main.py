@@ -1,22 +1,102 @@
 from products import Product
 from store import Store
+import sys
+
+def quit_program():
+    print("Exiting the shop. Goodbye")
+    sys.exit()
+
+def start(store_object):
+    funct_dict = {
+        "1": list_all_products,
+        "2": get_all_quantity,
+        "3": wrap_order,
+        "4": quit_program
+    }
+
+    while True:
+        print("      Store Menu      ")
+        print("1: List all products in store")
+        print("2: Show total amount in store")
+        print("3: Make an order")
+        print("4: exit ")
+        user_input = input("Please enter a number of your choice: ")
+
+        if user_input not in funct_dict:
+            print("Wrong input. Please choose one of the menu options.")
+
+        if user_input == "1":
+            funct_dict[user_input](store_object)
+        elif user_input == "2":
+            funct_dict[user_input](store_object)
+        elif user_input == "3":
+            funct_dict[user_input](store_object)
+        elif user_input == "4":
+            funct_dict[user_input]()
+
+def get_all_quantity(store_object):
+    all_quantity = store_object.get_total_quantity()
+    print("------")
+    print(f"The total quantity is {all_quantity}")
+    print("------")
+
+
+def list_all_products(store_object):
+    all_products = store_object.get_all_products()
+    print("------")
+    for idx, product in enumerate(all_products, start=1):
+        print(f"{idx}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
+    print("-----")
+
+def wrap_order(store_object):
+    all_products = store_object.get_all_products()
+    for idx, product in enumerate(all_products, start=1):
+        print(f"{idx}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
+
+    shopping_list = []
+    while True:
+        user_choice = input("Which product do you want to buy? (Enter empty to finish): ")
+        if not user_choice:
+            break
+
+        try:
+            product_idx = int(user_choice) - 1
+            chosen_product = all_products[product_idx]
+        except (ValueError, IndexError):
+            print("Invalid Product choice. Please try again")
+            continue
+
+        quantity_str = input("Enter the amount: ")
+        try:
+            quantity = int(quantity_str)
+            if quantity <= 0:
+                raise ValueError
+        except ValueError:
+            print("Please enter a positive quantity. Please try again")
+            continue
+
+        shopping_list.append((chosen_product, quantity))
+        print("-------")
+        print("Products added to list!!!!")
+        print("-------")
+
+    if shopping_list:
+        try:
+            total_price = store_object.order(shopping_list)
+            print("--------")
+            print(f"Order is placed. Total price is {total_price}€")
+            print("--------")
+        except ValueError as e:
+            print(f"Order failed: {e}")
+    else:
+        print("No products selected, returning to menu.")
+
 
 
 
 def main():
-    # bose = products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    # mac = products.Product("MacBook Air M2", price=1450, quantity=100)
-    #
-    # print(bose.buy(50))
-    # print(mac.buy(100))
-    # print(mac.is_active())
-    #
-    # print(bose.show())
-    # print(mac.show())
-    #
-    # bose.set_quantity(1000)
-    # print(bose.show())
 
+    #default product list
     product_list = [
         Product("MacBook Air M2", 1450, 100),
         Product("Bose QuietComfort Earbuds", price=250, quantity=500),
@@ -24,12 +104,12 @@ def main():
     ]
 
     best_buy = Store(product_list)
-    products = best_buy.get_all_products()
-    print(best_buy.get_total_quantity())
-    shopping_list = [(products[0], 1), (products[1], 2)]
-    print(type(shopping_list[0]))
-    print(best_buy.order(shopping_list))
-
+    # products = best_buy.get_all_products()
+    # print(best_buy.get_total_quantity())
+    # shopping_list = [(products[0], 1), (products[1], 2)]
+    # print(type(shopping_list[0]))
+    # print(best_buy.order(shopping_list))
+    start(best_buy)
 
 if __name__ == "__main__":
     main()
