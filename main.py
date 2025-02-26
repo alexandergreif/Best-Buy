@@ -3,10 +3,22 @@ from store import Store
 import sys
 
 def quit_program():
+    """
+    Exit the shop and terminate the program.
+
+    This function prints a goodbye message and then calls sys.exit() to stop execution.
+    """
     print("Exiting the shop. Goodbye")
     sys.exit()
 
 def start(store_object):
+    """
+    Starts the store and initiates the store object. Launches the cli menu
+
+    This function prints the menu and waits for user input.
+
+    The function loops until user chooses to exit
+    """
     funct_dict = {
         "1": list_all_products,
         "2": get_all_quantity,
@@ -35,6 +47,14 @@ def start(store_object):
             funct_dict[user_input]()
 
 def get_all_quantity(store_object):
+    """
+    Calculate and return the total quantity of items in the store.
+
+    This method iterates through all products in the store's inventory and sums up their individual quantities.
+
+    Returns:
+        int: The total number of items available across all products.
+    """
     all_quantity = store_object.get_total_quantity()
     print("------")
     print(f"The total quantity is {all_quantity}")
@@ -42,6 +62,14 @@ def get_all_quantity(store_object):
 
 
 def list_all_products(store_object):
+    """
+    Print all active products in the store.
+
+    Parameters:
+        store_object (Store): The store instance containing products.
+
+    The function retrieves active products using store_object.get_all_products() and prints each product's details.
+    """
     all_products = store_object.get_all_products()
     print("------")
     for idx, product in enumerate(all_products, start=1):
@@ -49,6 +77,19 @@ def list_all_products(store_object):
     print("-----")
 
 def wrap_order(store_object):
+    """
+        Handle user interaction for placing an order.
+
+        Parameters:
+            store_object (Store): The store instance from which products will be ordered.
+
+        This function:
+          - Displays all active products.
+          - Prompts the user to select products and enter desired quantities.
+          - Builds a shopping list (a list of tuples (Product, quantity)).
+          - Calls store_object.order() with the shopping list and prints the total price.
+          - Catches and prints errors if the order fails.
+    """
     all_products = store_object.get_all_products()
     for idx, product in enumerate(all_products, start=1):
         print(f"{idx}. {product.name}, Price: {product.price}, Quantity: {product.quantity}")
