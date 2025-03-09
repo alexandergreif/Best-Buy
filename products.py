@@ -109,10 +109,12 @@ class Product:
         Raises:
             ValueError: If the quantity is not positive or exceeds available stock.
         """
+        if not self.active:
+            raise ValueError("Cannot purchase an inactive product.")
         if quantity <= 0:
             raise ValueError("The quantity has to be positive.")
         if quantity > self.quantity:
-            raise ValueError("Not enough quantity in the storage")
+            raise ValueError("Not enough quantity in the storage.")
 
         total_price = self.price * quantity
 
